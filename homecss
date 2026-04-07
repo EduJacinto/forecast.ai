@@ -1,0 +1,30 @@
+
+.title{
+text-align: center;
+margin-top: 20px;
+color: darkgreen;
+font-size: 35px;
+font-weight:bold;
+text-decoration:underline;
+}
+
+
+.nav{
+display: flex;
+justify-content: flex-end;
+padding: 10px 20px;
+gap: 20px;
+font-size: 20px;
+
+}
+.container{
+display:flex;
+margin-top: 40px;
+align-items: center;
+justify-content: center;
+
+}
+
+body{
+background-color: beige;
+}
