@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>STOCK TRACKER</title>
+    <link rel="stylesheet" href="../static/pycss.css">
+</head>
+<body>
+
+<div class="nav">
+<a href="Home.html">Home</a>
+<a href="about.html">About</a>
+</div>
+
+
+<div class="title">
+	<h2>STOCK TICKER</h2>
+</div>
+
+<div class="container">
+    <input type="text" placeholder="Enter a Stock Ticker">
+    <button>Search</button>
+</div>
+
+</body>
+</html>
