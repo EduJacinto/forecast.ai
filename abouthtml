@@ -14,7 +14,15 @@
 	<h2>About our Website</h2>
 </div>
 
+<div class="paragraphs">
+    <H4>This a full-stack Python web application that uses an LSTM neural network for
+time-series forecasting of stock prices. Integrating financial market data
+with an interactive web interface.</H4>
+</div>
 
+<footer class="footer">
+    <p>&star; 2026 Stock Tracker</p>
+</footer>
 
 </body>
 </html>
