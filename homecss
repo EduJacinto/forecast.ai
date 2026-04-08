@@ -15,14 +15,20 @@ justify-content: flex-end;
 padding: 10px 20px;
 gap: 20px;
 font-size: 20px;
-
 }
+
 .container{
 display:flex;
 margin-top: 40px;
 align-items: center;
 justify-content: center;
+}
 
+.footer{
+text-align:center;
+padding: 20px;
+font-size:14px;
+margin-botton:40px
 }
 
 body{
