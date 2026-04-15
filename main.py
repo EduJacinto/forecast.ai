@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-# from LSTM import train, predict_next_n_days, get_historical_prices, fetch_stock_data
+from LSTM import train, predict_next_n_days, get_historical_data, fetch_ticker_data
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -23,13 +23,26 @@ def predict():
         return ValueError("Error: Please provide a ticker symbol.");
 
     try:
-        pass
+        model, scaler, df = train(ticker, epochs=20)
+        forecast_prices = predict_next_n_days(model, scaler, df, n_days=30)
+        historical = get_historical_data(df, days=90)
+
+        import pandas as pd
+        last_date = df.index[-1]
+        future_dates = pd.bdate_range(start=last_date + pd.Timedelta(days=1), periods=30)
+        forecast = [(str(day.date()), round(price, 2)) for day, price in zip(future_dates, forecast_prices)]
+
+        return jsonify({
+            "ticker": ticker,
+            "historical": historical,
+            "forecast": forecast
+        })
     
     except ValueError as e:
-        pass
+        return jsonify({"Error": str(e)}), 404
     
     except Exception as e:
-        pass
+        return({"Error": f"prediction failed: {str(e)}"}), 500
     
 
 if __name__ == "__main__":
