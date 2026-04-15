@@ -18,9 +18,15 @@
 </div>
 
 <div class="container">
-    <input type="text" placeholder="Enter a Stock Ticker">
+    <input id="tickerId" type="text" placeholder="Enter a Stock Ticker" value="">
     <button>Search</button>
 </div>
+<script>
+    let chartInstance = null;
 
+    async function runPrediction() {
+        const ticker = document.getElementById("tickerId").value.trim().toUpperCase();
+    }
+</script>
 </body>
 </html>
