@@ -58,7 +58,7 @@
             const res = await fetch("/predict", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ticker });
+                body: JSON.stringify({ ticker })
             });
 
             const data = await res.json();
@@ -81,7 +81,81 @@
         }
     }
 
+    function renderChart(data) {
+        const labels = [
+            ...data.historical.map(d => d[0]),
+            ...data.forecast.map(d => d[0])
+        ];
+        const histPrices = data.historical.map(d => d[1]);
+        const forecastPrices = data.forecast.map(d => d[1]);
     
+        // Pad historical with nulls so it aligns left; forecast aligns right
+        const histData = [...histPrices, ...Array(forecastPrices.length).fill(null)];
+        const foreData = [...Array(histPrices.length - 1).fill(null), histPrices[histPrices.length - 1], ...forecastPrices];
+    
+        document.getElementById("chartTitle").textContent = `${data.ticker} — Last 90 Days + 30-Day Forecast`;
+        document.getElementById("chartSection").style.display = "block";
+    
+        if (chartInstance) chartInstance.destroy();
+    
+        const ctx = document.getElementById("stockChart").getContext("2d");
+        chartInstance = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: "Historical Price",
+                        data: histData,
+                        borderColor: "darkgreen",
+                        backgroundColor: "rgba(0,100,0,0.07)",
+                        pointRadius: 0,
+                        borderWidth: 2,
+                        spanGaps: false,
+                    },
+                    {
+                        label: "Forecast",
+                        data: foreData,
+                        borderColor: "orange",
+                        backgroundColor: "rgba(255,165,0,0.07)",
+                        borderDash: [6, 3],
+                        pointRadius: 0,
+                        borderWidth: 2,
+                        spanGaps: false,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: "index", intersect: false },
+                plugins: {
+                    legend: { position: "top" },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `$${ctx.parsed.y?.toFixed(2) ?? ""}`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxTicksLimit: 12,
+                            maxRotation: 45,
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            callback: val => `$${val}`
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    document.getElementById("tickerInput").addEventListener("keydown", e => {
+        if (e.key === "Enter") runPrediction();
+    });
 </script>
 </body>
 </html>
