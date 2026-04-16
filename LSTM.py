@@ -1,14 +1,14 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from keras import Sequential
+from keras import Sequential, Input
 from keras.layers import LSTM, Dense, Dropout
 import yfinance as yf
 
 # this model will focus on medium term patterns/trends to avoid looking at noise and stale data
 SEQUENCE_LENGTH=60
 
-def fetch_ticker_data(ticker: str, period: str = "2yr") -> pd.DataFrame:
+def fetch_ticker_data(ticker: str, period: str = "2y") -> pd.DataFrame:
     '''
     will be looking at closing prices for each day
     '''
@@ -16,7 +16,13 @@ def fetch_ticker_data(ticker: str, period: str = "2yr") -> pd.DataFrame:
     df = yf.download(ticker, period=period, progress=False)
     if df.empty:
         raise ValueError(f"No data found for ticker provided: {ticker}")
-    return df[["Close"]]
+    
+    close_data = df["Close"]
+
+    if isinstance(close_data, pd.DataFrame):
+        close_data = close_data.iloc[:, 0]
+
+    return close_data.to_frame(name="Close")
 
 def preprocess(df: pd.DataFrame):
     '''
@@ -41,12 +47,13 @@ def build_model() -> Sequential:
     this method creates and compiles the LSTM model
     """
     model = Sequential([
-        LSTM(64, return_sequences=True, input_shape=(SEQUENCE_LENGTH, 1)),
+        Input(shape=([SEQUENCE_LENGTH, 1])),
+        LSTM(64, return_sequences=True),
         Dropout(0.2),
         LSTM(64, return_sequences=False),
         Dropout(0.2),
         Dense(32, activation="relu"),
-        Dense(1),
+        Dense(1)
     ])
     model.compile(optimizer="adam", loss="mean_squared_error")
     return model
@@ -92,7 +99,7 @@ def predict_next_n_days(model, scaler, df: pd.DataFrame, n_days: int = 30):
         predictions.append(scaled_prediction)
         window = np.append(window[:, 1:, :], [[[scaled_prediction]]], axis=1)
 
-    predictions = scaler.inverse_transform(np.array(predictions).reshaped(-1,1))
+    predictions = scaler.inverse_transform(np.array(predictions).reshape(-1,1))
     return predictions.flatten().tolist()
 
 def get_historical_data(df: pd.DataFrame, days: int = 90):
@@ -100,4 +107,4 @@ def get_historical_data(df: pd.DataFrame, days: int = 90):
     returns the last 'days' rows as a list of (date_str, closing_price) tuples.
     '''
     recent = df.tail(days)
-    return [(str(day.date()), float(price)) for day, price in zip(recent.index, recent["Close"])]
+    return [(str(day.date()), float(price)) for day, price in zip(recent.index, recent["Close"].tolist())]

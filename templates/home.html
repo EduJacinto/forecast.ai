@@ -25,7 +25,7 @@
 <div id="status" class="status-msg"></div>
 
 <div id="chartSection" style="display:none;">
-    <h3 id="chartTitle" style="text-align:center; color:darkgreen;" />
+    <h3 id="chartTitle" style="text-align:center; color:darkgreen;"></h3>
     <div class="chart-wrapper">
         <canvas id="securityChart"></canvas>
     </div>
@@ -41,7 +41,7 @@
     async function runPrediction() {
         const ticker = document.getElementById("tickerId").value.trim().toUpperCase();
         const status = document.getElementById("status");
-        const bt = getElementById("searchBtn");
+        const btn = document.getElementById("searchBtn");
 
         if (!ticker) {
             status.textContent = "Please enter a valid ticker symbol.";
@@ -49,7 +49,7 @@
             return;
         }
 
-        status.textContent = "⏳ Training model and building forecasting... this may take ~30 seconds.";
+        status.textContent = "⏳ Training model and building forecast... this may take ~30 seconds.";
         status.style.color = "#555";
         btn.disabled = true;
         document.getElementById("chartSection").style.display = "none";
@@ -98,7 +98,7 @@
     
         if (chartInstance) chartInstance.destroy();
     
-        const ctx = document.getElementById("stockChart").getContext("2d");
+        const ctx = document.getElementById("securityChart").getContext("2d");
         chartInstance = new Chart(ctx, {
             type: "line",
             data: {
@@ -153,7 +153,7 @@
         });
     }
     
-    document.getElementById("tickerInput").addEventListener("keydown", e => {
+    document.getElementById("tickerId").addEventListener("keydown", e => {
         if (e.key === "Enter") runPrediction();
     });
 </script>

@@ -18,9 +18,10 @@ def predict():
     '''
     data = request.get_json()
     ticker = data.get("ticker", "").strip().upper()
+    
 
     if not ticker:
-        return ValueError("Error: Please provide a ticker symbol.");
+        return jsonify({"error": "Please provide a ticker symbol."}), 400
 
     try:
         model, scaler, df = train(ticker, epochs=20)
@@ -39,10 +40,10 @@ def predict():
         })
     
     except ValueError as e:
-        return jsonify({"Error": str(e)}), 404
+        return jsonify({"error": str(e)}), 404
     
     except Exception as e:
-        return({"Error": f"prediction failed: {str(e)}"}), 500
+        return jsonify({"error": f"prediction failed: {str(e)}"}), 500
     
 
 if __name__ == "__main__":
