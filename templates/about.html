@@ -1,28 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>About</title>
-    <link rel="stylesheet" href="../static/homedesign.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — forecast.ai</title>
+  <link rel="stylesheet" href="../static/index.css" />
 </head>
 <body>
-<div class="nav">
-<a href="/">Home</a>
-</div>
 
-<div class="title">
-	<h2>About our Website</h2>
-</div>
+  <nav class="nav">
+    <a href="/" class="nav-logo">forecast</a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Predict</a>
+      <a href="/about" class="nav-link active">About</a>
+    </div>
+  </nav>
 
-<div class="paragraphs">
-    <H4>This a full-stack Python web application that uses an LSTM neural network for
-time-series forecasting of stock prices. Integrating financial market data
-with an interactive web interface.</H4>
-</div>
+  <main class="main main--about">
 
-<footer class="footer">
-    <p>&star; 2026 Stock Tracker</p>
-</footer>
+    <div class="about-header">
+      <p class="hero-eyebrow">How it works</p>
+      <h1 class="hero-title">Built on LSTM</h1>
+      <p class="hero-sub">A deep-dive into the architecture behind the predictions.</p>
+    </div>
+
+    <div class="about-grid">
+
+      <div class="about-card">
+        <div class="about-card-num">01</div>
+        <h3 class="about-card-title">Data collection</h3>
+        <p class="about-card-body">We pull 2 years of daily closing prices from Yahoo Finance via <code>yfinance</code>. Using 2 years gives the model enough medium-term patterns to generalise well without being dragged down by stale data and trends.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-num">02</div>
+        <h3 class="about-card-title">Preprocessing</h3>
+        <p class="about-card-body">Prices are scaled to [0, 1] with <code>MinMaxScaler</code>. We then build sliding windows of 60 trading days — each window becomes one training sample, and the target is the very next day's scaled close.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-num">03</div>
+        <h3 class="about-card-title">LSTM architecture</h3>
+        <p class="about-card-body">Two stacked LSTM layers (64 units each) with 20% dropout to prevent overfitting, followed by a 32-unit dense ReLU layer and a single linear output neuron. Compiled with Adam and MSE loss.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-num">04</div>
+        <h3 class="about-card-title">Training split</h3>
+        <p class="about-card-body">80% of sequences are used for training, 20% reserved as a validation set. Training runs for 20 epochs — enough to converge without heavy compute cost. Validation loss is monitored throughout.</p>
+      </div>
+
+      <div class="about-card">
+        <div class="about-card-num">05</div>
+        <h3 class="about-card-title">Forecasting</h3>
+        <p class="about-card-body">We feed the last 60-day window into the trained model, append each predicted value back into the window, and roll forward — producing 30 business days of predictions in a single autoregressive pass.</p>
+      </div>
+
+      <div class="about-card about-card--disclaimer">
+        <div class="about-card-num">⚠</div>
+        <h3 class="about-card-title">Disclaimer</h3>
+        <p class="about-card-body">forecast.ai is a machine-learning experiment, not financial advice. Stock prices are influenced by countless factors no model can fully capture. Use these forecasts to make investment decisions at your own risk.</p>
+      </div>
+
+    </div>
+  </main>
 
 </body>
 </html>
