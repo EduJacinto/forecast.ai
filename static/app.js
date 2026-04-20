@@ -1,4 +1,4 @@
-/* app.js — StockSeer frontend logic */
+/* app.js — Forecast.ai frontend logic */
 
 let chartInstance = null;
 
@@ -209,8 +209,8 @@ function renderChart(data) {
     { label: 'Last close',       value: '$' + lastHist.toFixed(2) },
     { label: '30d forecast',     value: '$' + lastForecast.toFixed(2) },
     { label: 'Forecast change',  value: (forecastUp ? '+' : '') + forecastChange + '%', color: forecastUp ? '#34d399' : '#f87171' },
-    { label: 'Hist. high (90d)', value: '$' + Math.max(...histPrices).toFixed(2) },
-    { label: 'Hist. low (90d)',  value: '$' + Math.min(...histPrices).toFixed(2) },
+    { label: 'High (90d)', value: '$' + Math.max(...histPrices).toFixed(2) },
+    { label: 'Low (90d)',  value: '$' + Math.min(...histPrices).toFixed(2) },
   ];
 
   const statsRow = document.getElementById('stats-row');

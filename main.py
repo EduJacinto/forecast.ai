@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from LSTM import train, predict_next_n_days, get_historical_data, fetch_ticker_data
+from LSTM import train, predict_next_n_days, get_historical_data
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
