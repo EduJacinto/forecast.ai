@@ -1,7 +1,9 @@
 /* app.js — Forecast.ai frontend logic */
 
 let chartInstance = null;
-
+/**
+shows a loading spinner on the predict button
+*/
 function setLoading(loading) {
   const btn    = document.getElementById('predict-btn');
   const label  = document.getElementById('btn-label');
@@ -13,17 +15,23 @@ function setLoading(loading) {
   arrow.classList.toggle('hidden', loading);
   spinner.classList.toggle('hidden', !loading);
 }
-
+/**
+displays an error message to the user
+*/
 function showError(msg) {
   const el = document.getElementById('error-msg');
   el.textContent = msg;
   el.classList.remove('hidden');
 }
-
+/**
+hides the error message
+*/
 function hideError() {
   document.getElementById('error-msg').classList.add('hidden');
 }
-
+/**
+gets the users input of the stock ticker, sends it to the server and then displays the predicted stock graph/chart
+*/
 async function runPrediction() {
   const ticker = document.getElementById('ticker-input').value.trim().toUpperCase();
   if (!ticker) { showError('Please enter a ticker symbol.'); return; }
@@ -54,6 +62,9 @@ async function runPrediction() {
   }
 }
 
+/**
+Gets the stock data from the sever and displays the graph/chart showing the past prices and the predicted future prices
+*/
 function renderChart(data) {
   const { ticker, historical, forecast } = data;
 
