@@ -3,7 +3,7 @@
 This project is a web app that predicts stock prices using an LSTM (Long Short-Term Memory) neural network. The user is provided a web interface where users can input a valid stock/security ticker (e.g. SPYD, AVGO, V) and view a chart with 90 days of historical close prices and a forecast of predicitions for the next 30 days.
 
 ## Features
-- Featches real stock market data
+- Fetches real stock market data
 - Trains and tests an LSTM model on the historical data
 - Produces a forecast of future stock prices
 - Web interface provided using Flask
