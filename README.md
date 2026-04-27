@@ -32,3 +32,10 @@ then open the link provided in the terminal
 1. Enter a stock ticker into the search bar
 2. Click the predict button
 3. view the chart!
+
+# Contributions
+
+using the command ```git shortlog -s -n```
+
+Eduardo Jacinto had 18 contributions
+Rodangenica Jeanniton had 13 contributions
